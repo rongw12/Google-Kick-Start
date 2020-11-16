@@ -1,0 +1,459 @@
+Round H 2020 - Kick Start 2020 2020/8/14 7:00 pm PST
+
+Each problem has two set sets, the second one is bigger.
+Overall:
+Problem 1: Retype: Passed both test sets.
+Problem 2: Boring numbers: Only passed the 1st test set.
+Problem 3: Rugby: Passed both test sets. This algorithm is interesting.
+Problem 4: Friends: No test sets passed. Time limit exceeded.
+
+
+Problem 1: Retype
+
+After spending many hours studying for programming competitions, you decided to take a rest and play video games. You are currently playing an adventure game called Quick Start.
+
+This game has N levels, and you are currently on the K-th level. Unfortunately, you just realized that to beat the boss at the final level, you will need a special sword, which can be picked up at level S. You have already completed that level, but you forgot to pick up the sword at that level.
+
+Now you want to pick up the sword and finish the game in the least amount of time possible, and for that you have two options:
+
+Restart the game and complete all levels again, starting from level 1.
+Move to previous levels until you reach level S, pick up the sword and complete all the remaining levels, starting from level S.
+Every time you enter a level you have to exit it, either by completing it and going to the next level or by moving to a previous level or by finishing / exiting the game. Exiting any level takes 1 minute. That means, for example, that it took you L minutes to complete the first L levels.
+
+Your task is to discover which option would result in the least amount of total time to finish the game (including the time you have already spent).
+
+Input
+The first line of the input gives the number of test cases, T. T test cases follow.
+
+The first (and only) line of each test case contains three integers N, K and S: the number of levels in the game, the current level you are in, and the level where you have to pick up the sword, respectively.
+
+Output
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the least amount of total time to finish the game.
+
+Limits
+Time limit: 20 seconds.
+Memory limit: 1 GB.
+1 ≤ T ≤ 100.
+1 ≤ S < K < N.
+Test Set 1
+N ≤ 1000.
+Test Set 2
+N ≤ 109.
+Sample
+
+Input
+ 	
+Output
+ 
+2
+10 5 2
+10 7 6
+
+  
+Case #1: 15
+Case #2: 12
+
+  
+In Sample Case #1, it took you 4 minutes to complete the first 4 levels and enter 5-th level. Restarting the game and completing all levels again would take 11 more minutes (1 minute to restart and 10 to complete 10 levels), which adds up to 15 minutes. The other option would be to move backwards until you reach level 2 (which would take 3 minutes), and then complete all the remaining levels (taking 9 more minutes), which would result in a total of 16 minutes.
+
+In Sample Case #2, it took you 6 minutes to complete the first 6 levels and enter 7-th level. Moving backwards until reaching level 6 (one minute), and then completing all the remaining levels (5 minutes), would take a total of 12 minutes to finish the game.
+
+
+My code:
+cases = int(input())
+for x in range(cases):
+    n, k, s = map(int, input().split())
+    y = min(1+n, (k-s)+(n-s)+1) + k-1
+    print("Case #" + str(x+1) + ": " + str(y))
+
+
+
+Problem 2: Boring numbers
+Ron read a book about boring numbers. According to the book, a positive number is called boring if all of the digits at even positions in the number are even and all of the digits at odd positions are odd. The digits are enumerated from left to right starting from 1. For example, the number 1478 is boring as the odd positions include the digits {1, 7} which are odd and even positions include the digits {4, 8} which are even.
+
+Given two numbers L and R, Ron wants to count how many numbers in the range [L, R] (L and R inclusive) are boring. Ron is unable to solve the problem, hence he needs your help.
+Input
+The first line of the input gives the number of test cases, T. T test cases follow. Each test case consists of a single line with two numbers L and R.
+
+Output
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the count of boring numbers.
+
+Limits
+Time limit: 20 seconds.
+Memory limit: 1 GB.
+1 ≤ T ≤ 100.
+Test Set 1
+1 ≤ L ≤ R ≤ 103.
+Test Set 2
+1 ≤ L ≤ R ≤ 1018.
+Sample
+
+Input
+ 	
+Output
+ 
+3
+5 15
+120 125
+779 783
+
+  
+Case #1: 6
+Case #2: 3
+Case #3: 2
+
+  
+In Sample Case #1, the numbers in the range are {5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15} out of which {5, 7, 9, 10, 12, 14} are boring, hence the answer is 6.
+
+In Sample Case #2, the numbers in the range are {120, 121, 122, 123, 124, 125} out of which {121, 123, 125} are boring, hence the answer is 3.
+
+In Sample Case #3, the numbers in the range are {779, 780, 781, 782, 783} out of which {781, 783} are boring, hence the answer is 2.
+
+
+cases = int(input())
+for x in range(cases):
+    l, r = map(int, input().split())
+    cnt = 0
+    for i in range(l, r+1):
+        s = str(i)
+        l = len(s)
+        boring = True
+        for j in range(l):
+            if int(j) % 2 == 0 and int(s[j]) % 2 == 0:
+                boring = False
+                break
+            elif int(j) % 2 != 0 and int(s[j]) % 2 != 0:
+                boring = False
+                break
+        if boring:
+            cnt += 1
+            print(i)
+    print("Case #" + str(x+1) + ": " + str(cnt))
+
+
+
+
+Problem 3: Rugby
+
+On a far away planet, rugby is played in the two dimensional Cartesian coordinate system without bounds. The players can occupy integer grid points only and they can move to the neighboring grid points in any of the four cardinal directions. Specifically, if a player is currently at the point (X, Y), then they can move to either of the points (X+1, Y), (X-1, Y), (X, Y+1), or (X, Y-1) in a single step.
+
+After the game, N players are scattered throughout the coordinate system such that any grid point is empty or occupied by one or more players. They want to gather for a picture and form a perfect horizontal line of N grid points, one player per point, all occupied points next to each other. Formally, the players have to move so as to occupy the grid points (X, Y), (X+1, Y), (X+2, Y), ..., (X+N-1, Y) for some coordinates X and Y. What is the minimum total number of steps the players should make to form a perfect line if they are free to choose the position of the line in the coordinate system and the ordering of players is not important?
+
+Input
+The first line of the input gives the number of test cases T. T test cases follow. The first line of each test case gives the number of players N. The subsequent N lines give the initial coordinates of the players. The i-th of these lines contains two integers Xi and Yi, which describe the initial position of i-th player (1 ≤ i ≤ N).
+
+Output
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is the minimum total number of steps that the players need to make in order to form a perfect horizontal line.
+
+Limits
+Memory limit: 1 GB.
+1 ≤ T ≤ 100.
+Test Set 1
+Time limit: 20 seconds.
+1 ≤ N ≤ 10.
+-500 ≤ Xi ≤ 500.
+-500 ≤ Yi ≤ 500.
+Test Set 2
+Time limit: 40 seconds.
+1 ≤ N ≤ 105 for at most 10 cases.
+1 ≤ N ≤ 104 for the remaining cases.
+-109 ≤ Xi ≤ 109.
+-109 ≤ Yi ≤ 109.
+Sample
+
+Input
+ 	
+Output
+ 
+2
+2
+1 1
+4 4
+3
+1 1
+1 2
+1 3
+
+  
+Case #1: 5
+Case #2: 4
+
+  
+In the first test case, one of many optimal solutions is obtained by the second player moving two steps to the left and three steps down to the point (2, 1).
+
+In the second test case, a perfect line can be formed with a total of four steps if the first player moves to the point (0, 2) and the third player moves to the point (2, 2).
+
+cases = int(input())
+for x in range(cases):
+    num = int(input())
+    posx = []
+    posy = []
+    for i in range(num):
+        m, n = map(int, input().split())
+        posx.append(m)
+        posy.append(n)
+    # for y 
+    posy.sort()
+    mid_y = posy[num//2]
+    step_y = 0
+    for m in range(num):
+        step_y += abs(mid_y - posy[m])
+    # for x
+    posx.sort() #sort first
+    for m in range(m): 
+        posx[m] = posx[m] - m
+    posx.sort() # sort the new x coordinates
+    mid_x = posx[num//2] # get the middle of the new x coordinates
+    step_x = 0
+    for m in range(num):
+        step_x += abs(mid_x - posx[m])
+    # total steps
+    print(step_x)
+    print(step_y)
+    steps = step_x + step_y
+    print("Case #" + str(x+1) + ": " + str(steps))
+
+
+
+
+Problem 4: Friends
+
+There are N people in the world numbered 1 to N. The i-th person has a distinct name Si that is a string of uppercase English letters.
+
+Two people are friends if and only if there is some letter that appears at least once in each of their names. Any such letter does not need to be at the same position in both names. After all, friendship requires having something in common!
+
+A friendship chain of length n between person A and person B is a sequence of people X1, X2, ..., Xn such that X1 = A, Xn = B, and Xi and Xi+1 are friends, for i=1 to n-1. Note that any two people can have zero or more friendship chains between them.
+
+For each of the given Q pairs of people, can you find the length of the shortest friendship chain between them? If there is no friendship chain between a pair, output -1.
+
+Input
+The first line of the input gives the number of test cases, T. T test cases follow. The first line of each test case contains the two integers N and Q. The second line contains N strings, which are people's names. The i-th string (starting from 1) is Si. Then, Q lines follow, describing the queries. The i-th of these lines contains the two integers Xi and Yi, which are the indexes (counting starting from 1) of a pair of people in the list of names.
+
+Output
+For each test case, output one line containing Case #x: y, where x is the test case number (starting from 1) and y is a list of the answers for the Q queries in order, separated by spaces.
+
+Limits
+Time limit: 40 seconds per test set.
+Memory limit: 1GB.
+1 ≤ T ≤ 100.
+1 ≤ Q ≤ 5 × 104.
+Si consists of uppercase English letters, for all i.
+1 ≤ length of Si ≤ 20, for all i.
+All Si are distinct.
+1 ≤ Xi <Yi ≤ N, for all i.
+Test Set 1
+2 ≤ N ≤ 100.
+Test Set 2
+103 < N ≤ 5 × 104 in at most 10 cases.
+2 ≤ N ≤ 103 in all other cases.
+Sample
+
+Input
+ 	
+Output
+ 
+2
+5 2
+LIZZIE KEVIN BOHDAN LALIT RUOYU
+1 2
+1 3
+2 2
+KICK START
+1 2
+1 2
+
+  
+Case #1: 2 3
+Case #2: -1 -1
+
+  
+In Sample Case #1, there are two queries:
+
+In the first query, LIZZIE and KEVIN are friends (because they share the letter E in their names). So, the shortest friendship chain length is 2.
+In the second query, LIZZIE and BOHDAN are not friends, but have two possible shortest friendship chains (either via KEVIN or LALIT). So, the shortest friendship chain length is 3. Note that there are other friendship chains as well, but they are longer.
+In Sample Case #2, there are two queries:
+
+In the first query, KICK and START are not connected by a chain of friends.
+The second query is the same as the first query. Note that queries are not guaranteed to be distinct.
+
+
+from collections import defaultdict
+cases = int(input())
+for x in range(cases):
+    n, q = map(int, input().split())
+    names = list(input().split())
+    chain = []
+    bfs = []
+    # Use memorization for the shorest chain from a to b
+    for index in range(n+1):# have n+1 rows and n+1 cols
+        bfs.append([-1] * index + [1] + [-1] * (n-index))
+    d = defaultdict(list) # actually an undirected graph
+    for i in range(n-1):
+        j = i + 1
+        while j < n:
+            friend = False
+            for c in names[i]:
+                if c in names[j]:
+                    friend = True
+                    break
+            if friend:
+                d[i+1].append(j+1)
+                d[j+1].append(i+1)
+                bfs[i+1][j+1] = 2 #direct friends shouuld hava 2
+                bfs[j+1][i+1] = 2
+            j += 1
+
+    for i in range(q):
+        a, b = map(int, input().split())
+        if bfs[a][b] > 0:
+            chain.append(bfs[a][b])
+            continue
+        stack = [(a, 1)]
+        visited = {a}
+        cnt = 1
+        found = False
+        while stack:
+            start, step = stack.pop(0) # BFS
+            bfs[a][start] = step
+            # step is how many steps from the starting person to the person start
+            if start == b:
+                found = True
+                break
+            if bfs[start][b] > 0: # check if I have a path from the current node to the destination node
+                step = step + bfs[start][b] -1
+                found = True
+                break
+            for node in d[start]:
+                if node not in visited:
+                    stack.append((node, step+1))
+        if found:
+            chain.append(step)
+            bfs[a][b] = step
+        else:
+            chain.append(-1)
+    print("Case #" + str(x+1) + ": ", end = "")
+    for i in range(q-1):
+        print(chain[i], end = " ")
+    print(chain[-1])
+
+
+
+My solution for Q2 and Q4 can solve the problem, but may take too long. 
+Below is the C++ code from the coder who ranks first.
+
+Q2:
+#include<bits/stdc++.h>
+
+int main() {
+	using namespace std;
+	ios_base::sync_with_stdio(false), cin.tie(nullptr);
+
+	int T; cin >> T;
+	for (int case_num = 1; case_num <= T; case_num ++) {
+
+		int64_t L, R; cin >> L >> R; R++;
+		bool parity = 0;
+		int64_t coeff = 1;
+		int64_t ans = 0;
+		while (L < R) {
+			assert(1 <= L && L < R);
+			auto is_good = [&](int64_t v) {
+				assert(v > 0);
+				bool d = v % 2;
+				while (v > 0) {
+					if (v % 2 != d) return false;
+					d = !d;
+					v /= 10;
+				}
+				return d == 0;
+			};
+			while (L < R && L % 10 != 0) {
+				if (is_good(L)) {
+					ans += coeff;
+				}
+				L++;
+			}
+			while (L < R && R % 10 != 0) {
+				--R;
+				if (is_good(R)) {
+					ans += coeff;
+				}
+			}
+
+			if (L == R) break;
+			assert(L % 10 == 0 && R % 10 == 0);
+			assert(L >= 10);
+
+			L /= 10;
+			R /= 10;
+
+			coeff *= 5;
+			parity = !parity;
+		}
+
+		cout << "Case #" << case_num << ": " << ans << '\n';
+	}
+
+	return 0;
+}
+
+
+Q4:
+#include<bits/stdc++.h>
+
+int main() {
+	using namespace std;
+	ios_base::sync_with_stdio(false), cin.tie(nullptr);
+
+	int T; cin >> T;
+	for (int case_num = 1; case_num <= T; case_num ++) {
+		int N, Q; cin >> N >> Q;
+		const int INF = 1e9;
+		vector<vector<int>> dist(26, vector<int>(26, INF));
+		for (int i = 0; i < 26; i++) dist[i][i] = 0;
+
+		vector<int> msks(N);
+		for (int z = 0; z < N; z++) {
+			string S; cin >> S;
+			int msk = 0;
+			for (char c : S) {
+				msk |= (1 << (c - 'A'));
+			}
+			msks[z] = msk;
+			for (int i = 0; i < 26; i++) {
+				if (!(msk & (1 << i))) continue;
+				for (int j = i+1; j < 26; j++) {
+					if (!(msk & (1 << j))) continue;
+					dist[i][j] = dist[j][i] = 1;
+				}
+			}
+		}
+
+		for (int k = 0; k < 26; k++) {
+			for (int i = 0; i < 26; i++) {
+				for (int j = 0; j < 26; j++) {
+					dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
+				}
+			}
+		}
+
+		cout << "Case #" << case_num << ":";
+		for (int q = 0; q < Q; q++) {
+			int u, v; cin >> u >> v; u--, v--;
+			int ans = INF;
+			for (int m1 = msks[u]; m1; m1 &= m1-1) {
+				int i = __builtin_ctz(m1);
+				for (int m2 = msks[v]; m2; m2 &= m2-1) {
+					int j = __builtin_ctz(m2);
+					ans = min(ans, 2 + dist[i][j]);
+				}
+			}
+			if (ans == INF) ans = -1;
+			cout << ' ' << ans;
+		}
+		cout << '\n';
+
+	}
+
+	return 0;
+}
